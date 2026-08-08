@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace LetMeRightClick.Patches;
 
-internal class ItemUiContext_GetItemContextInteractions_Patch : ModulePatch
+internal sealed class ItemUiContext_GetItemContextInteractions_Patch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {

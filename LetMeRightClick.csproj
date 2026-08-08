@@ -64,4 +64,34 @@
     <None Include="App.config" />
   </ItemGroup>
 
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release'">
+		<!-- Define key paths -->
+		<PropertyGroup>
+			<ReleaseDir>$(ProjectDir)release</ReleaseDir>
+			<ZipPath>$(ReleaseDir)\$(ProjectName).zip</ZipPath>
+			<TempDir>$(ReleaseDir)\temp\BepInEx\plugins\$(ProjectName)</TempDir>
+			<OutputDll>$(TargetDir)$(ProjectName).dll</OutputDll>
+			<LicenseFile>$(ProjectDir)License.md</LicenseFile>
+		</PropertyGroup>
+
+		<!-- Clean previous temp and zip -->
+		<RemoveDir Directories="$(ReleaseDir)\temp" />
+		<Delete Files="$(ZipPath)" />
+
+		<!-- Recreate directories -->
+		<MakeDir Directories="$(TempDir)" />
+
+		<!-- Copy the built DLL -->
+		<Copy SourceFiles="$(OutputDll)" DestinationFolder="$(TempDir)" />
+
+		<!-- Copy License.md if it exists -->
+		<Copy SourceFiles="$(LicenseFile)" DestinationFolder="$(TempDir)" Condition="Exists('$(LicenseFile)')" />
+
+		<!-- Create the zip file -->
+		<Exec Command="powershell -NoLogo -NoProfile -Command &quot;Compress-Archive -Path '$(ReleaseDir)\temp\*' -DestinationPath '$(ZipPath)' -Force&quot;" />
+
+		<!-- Clean up temp folder -->
+		<RemoveDir Directories="$(ReleaseDir)\temp" />
+	</Target>
+
 </Project>
