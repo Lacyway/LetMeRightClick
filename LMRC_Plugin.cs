@@ -7,7 +7,7 @@ namespace LetMeRightClick;
 [BepInPlugin("com.lacyway.lmrc", "LetMeRightClick", PluginVersion)]
 internal class LMRC_Plugin : BaseUnityPlugin
 {
-    public const string PluginVersion = "1.1.0";
+    public const string PluginVersion = "1.1.1";
 
     internal static ManualLogSource LMRC_Logger;
 
